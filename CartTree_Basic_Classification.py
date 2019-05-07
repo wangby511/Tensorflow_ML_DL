@@ -3,6 +3,8 @@ from sklearn import tree
 import graphviz
 import numpy as np
 
+# 2019 MAY 6TH
+
 def transfer(y, c):
     # make multi-class classification to one-verus-allOthers (binary classification)
     for i in range(len(y)):
@@ -54,7 +56,7 @@ def testMyOwnData():
     X = np.array([i for i in range(1, 11)]).reshape(-1,1)
     split = 3.5
     y = [0 if x < split else 1 for x in X]
-    y = [0, 0, 0, 1, 1, 1, 1, 1, 1, 0]
+    y = [2, 2, 2, 1, 1, 1, 1, 1, 1, 0]
     clf = tree.DecisionTreeClassifier()
     clf = clf.fit(X, y)
     dot_data = tree.export_graphviz(clf,

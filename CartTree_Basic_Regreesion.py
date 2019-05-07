@@ -1,5 +1,8 @@
+from sklearn import tree
+import graphviz
 import numpy as np
 inf = 1e9
+# 2019 MAY 6TH
 
 # CART回归树预测回归连续型数据，假设X与Y分别是输入和输出变量，并且Y是连续变量。
 # 在训练数据集所在的输入空间中，递归的将每个区域划分为两个子区域并决定每个子区域上的输出值，构建二叉决策树。
@@ -87,4 +90,23 @@ def mainTest():
         # 作为下一轮的学习的y
         y_delta = [y[i] - y_predict[i] for i in range(N)]
 
-mainTest()
+def main():
+    X = np.array([i for i in range(1, 11)]).reshape(-1, 1)
+    y = [5.56, 5.70, 5.91, 6.40, 6.80, 7.05, 8.90, 8.70, 9, 9.05]
+    ### IT IS NOT WORKING!!!
+    # clf = tree.DecisionTreeClassifier()
+
+    # should be DecisionTreeRegressor()
+    # !!!
+    clf = tree.DecisionTreeRegressor()
+    clf = clf.fit(X, y)
+    dot_data = tree.export_graphviz(clf,
+                                    out_file = None,
+                                    filled = True,
+                                    rounded = True,
+                                    special_characters = True)
+    graph = graphviz.Source(dot_data)
+    graph.view()
+
+# mainTest()
+main()
