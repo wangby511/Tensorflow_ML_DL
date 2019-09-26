@@ -22,6 +22,7 @@ class AlexNet():
         self.batch_size = batch_size
         self.learning_rate = learning_rate
         self.random_seed = random_seed
+        self.epoch_test = False
 
         self._init_graph()
 
@@ -218,8 +219,6 @@ class AlexNet():
 
             self.fc8 = tf.matmul(self.fc7, self.fc8_params) + self.fc8_biases
 
-            # print("self.fc8.get_shape = " + str(self.fc8.get_shape()))
-            # (batch_size, 17 or 751)
 
             """
             LOSS + OPTIMIZER
@@ -258,13 +257,17 @@ class AlexNet():
                 }
                 loss = self.sess.run([self.loss], feed_dict=feed_dict)
                 print("epoch :", iter, " j =",j," loss =",loss)
+                break
 
-            feed_dict = {
-                self.input_data: X_train,
-                self.input_label: y_train
-            }
-            total_loss, accuracy = self.sess.run([self.loss, self.accuracy], feed_dict=feed_dict)
-            print("Epoch :",iter," accuracy = ",accuracy * 100,"%")
+            if self.epoch_test:
+
+                feed_dict = {
+                    self.input_data: X_train,
+                    self.input_label: y_train
+                }
+                total_loss, accuracy = self.sess.run([self.loss, self.accuracy], feed_dict=feed_dict)
+                print("Epoch :",iter," accuracy = ",accuracy * 100,"%")
+
                 # print(y_train[start_index])
                 # print("\n\n\n")
             #     for x in range(self.batch_size):
